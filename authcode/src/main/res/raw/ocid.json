@@ -1,0 +1,9 @@
+{
+  "issueUri": "",
+  "clientId": "",
+  "redirectUri": "",
+  "logoutRedirectUri": "",
+  "authorizationUri": "",
+  "tokenUri": "",
+  "scope": "openid profile offline_access"
+}
