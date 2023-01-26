@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">StargateX Auth</string>
+    <string name="login">Login</string>
+    <string name="logout">Logout</string>
+    <string name="refresh">Refresh Token</string>
+    <string name="auth_schema">SCHEMA</string>
+</resources>
