@@ -1,11 +1,11 @@
 {
-  "issueUri": "",
-  "clientId": "",
-  "redirectUri": "",
-  "logoutRedirectUri": "",
-  "authorizationUri": "",
-  "tokenUri": "",
-  "registrationUri": "",
-  "endSessionUri": "",
-  "scope": "openid profile offline_access"
+  "issueUri": "YOUR_OPENID_CONFIGURATION_DISCOVERY_URI",
+  "clientId": "YOUR_CLIENT_ID",
+  "redirectUri": "YOUR_REDIRECT_URI",
+  "logoutRedirectUri": "YOUR_LOGOUT_REDIRECT_URI",
+  "authorizationUri": "YOUR_AUTHORIZATION_URI",
+  "tokenUri": "YOUR_TOKEN_URI",
+  "registrationUri": "YOUR_REGISTRATION_URI",
+  "endSessionUri": "YOUR_END_SESSION_URI",
+  "scope": "openid profile offline_access YOUR_SCOPE"
 }
