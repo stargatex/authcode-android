@@ -61,8 +61,8 @@ android.defaultConfig.manifestPlaceholders = [
 1. As a first step, we will create an instance of `AuthConfiguration` in order to retrieve the
    configuration that needs to interact with the authorization server.
 
-<details>
-<summary>`kotlin`</summary>
+<details open>
+<summary>Using Kotlin</summary>
 
 ```kotlin
 val authConfiguration: AuthConfiguration = DefaultAuthConfiguration(context = this)
@@ -71,7 +71,7 @@ val authConfiguration: AuthConfiguration = DefaultAuthConfiguration(context = th
 </details>
 
 <details>
-<summary>`java`</summary>
+<summary>Using Java</summary>
 
 ```java
 AuthConfiguration authConfiguration = new DefaultAuthConfiguration(this);
@@ -82,8 +82,8 @@ AuthConfiguration authConfiguration = new DefaultAuthConfiguration(this);
 2. Next, to start authentication, we will create a 'WebAuthProvider' instance and use the '
    AuthConfiguration' created earlier as the authConfiguration.
 
-<details>
-<summary>`kotlin`</summary>
+<details open>
+<summary>Using Kotlin</summary>
 
 ```kotlin
  val webAuthProvider: WebAuthProvider =
@@ -93,7 +93,7 @@ AuthConfiguration authConfiguration = new DefaultAuthConfiguration(this);
 </details>
 
 <details>
-<summary>`java`</summary>
+<summary>Using Java</summary>
 
 ```java
 WebAuthProvider webAuthProvider = new DefaultWebAuthProvider(this,authConfiguration);
@@ -107,8 +107,8 @@ WebAuthProvider webAuthProvider = new DefaultWebAuthProvider(this,authConfigurat
    performs a set of actions consisting of configuring the request and retrieving the authorization
    code via the browser, then exchanging the authorization code for the token.
 
-<details>
-<summary>`kotlin`</summary>
+<details open>
+<summary>Using Kotlin</summary>
 
 ```kotlin
   (webAuthProvider as DefaultWebAuthProvider).login(
@@ -121,7 +121,7 @@ WebAuthProvider webAuthProvider = new DefaultWebAuthProvider(this,authConfigurat
 </details>
 
 <details>
-<summary>`java`</summary>
+<summary>Using Java</summary>
 
 ```java
     webAuthProvider.login(this,
@@ -136,8 +136,8 @@ WebAuthProvider webAuthProvider = new DefaultWebAuthProvider(this,authConfigurat
    code snippet can be placed into the activities that were supplied with 'onSuccessIntent' or '
    onFailIntent' intents, respectively.
 
-<details>
-<summary>`kotlin`</summary>
+<details open>
+<summary>Using Kotlin</summary>
 
 ```kotlin
 val authorizationCodeFlowResults: AuthorizationCodeFlowResults? =
@@ -147,7 +147,7 @@ val authorizationCodeFlowResults: AuthorizationCodeFlowResults? =
 </details>
 
 <details>
-<summary>`java`</summary>
+<summary>Using Java</summary>
 
 ```java
  AuthorizationCodeFlowResults authorizationCodeFlowResults = AuthFlowResultHandler.getLoginResultFromIntent(getIntent());
@@ -161,8 +161,8 @@ To refresh the access token, we will call the `refreshAccessToken` method of `We
 passing the refresh token as shown below. This will return an AuthorizationCodeFlowResults object
 which contains the token results or the exception thrown during the process.
 
-<details>
-<summary>`kotlin`</summary>
+<details open>
+<summary>Using Kotlin</summary>
 
 ```kotlin
  val refreshedTokenACFR: AuthorizationCodeFlowResults =
@@ -175,7 +175,7 @@ which contains the token results or the exception thrown during the process.
 </details>
 
 <details>
-<summary>`java`</summary>
+<summary>Using Java</summary>
 
 ```java
 AuthorizationCodeFlowResults authorizationCodeFlowResults = webAuthProvider.refreshAccessToken(
@@ -190,8 +190,8 @@ AuthorizationCodeFlowResults authorizationCodeFlowResults = webAuthProvider.refr
 To end the session we will call the `logout` method of `WebAuthProvider` while passing the IdToken
 and an Intent to redirect the user on action completion.
 
-<details>
-<summary>`kotlin`</summary>
+<details open>
+<summary>Using Kotlin</summary>
 
 ```kotlin
  webAuthProvider.logout(
@@ -204,7 +204,7 @@ and an Intent to redirect the user on action completion.
 </details>
 
 <details>
-<summary>`java`</summary>
+<summary>Using Java</summary>
 
 ```java
     webAuthProvider.logout(
@@ -218,8 +218,8 @@ and an Intent to redirect the user on action completion.
 
 Receive the results via the 'getLogoutResultFromIntent' method of `AuthFlowResultHandler`
 
-<details>
-<summary>`kotlin`</summary>
+<details open>
+<summary>Using Kotlin</summary>
 
 ```kotlin
  val endSessionFlowResults: EndSessionFlowResults? =
@@ -231,7 +231,7 @@ Receive the results via the 'getLogoutResultFromIntent' method of `AuthFlowResul
 </details>
 
 <details>
-<summary>`java`</summary>
+<summary>Using Java</summary>
 
 ```java
  EndSessionFlowResults endSessionFlowResults = AuthFlowResultHandler.getLogoutResultFromIntent(getIntent());
@@ -247,8 +247,8 @@ parameter, as shown below.
 
 * As a request body parameter
 
-<details>
-<summary>`kotlin`</summary>
+<details open>
+<summary>Using Kotlin</summary>
 
 ```kotlin
     val clientPostSecretConfig: ClientSecretConfig = ClientPostSecretConfig(CLIENT_SECRET)
@@ -260,7 +260,7 @@ parameter, as shown below.
 </details>
 
 <details>
-<summary>`java`</summary>
+<summary>Using Java</summary>
 
 ```java
   ClientSecretConfig clientPostSecretConfig = new ClientPostSecretConfig(CLIENT_SECRET);
@@ -274,8 +274,8 @@ parameter, as shown below.
 
 * As an HTTP basic authorization header
 
-<details>
-<summary>`kotlin`</summary>
+<details open>
+<summary>Using Kotlin</summary>
 
 ```kotlin
     val clientBasicSecretConfig: ClientSecretConfig = ClientBasicSecretConfig(CLIENT_SECRET)
@@ -287,7 +287,7 @@ parameter, as shown below.
 </details>
 
 <details>
-<summary>`java`</summary>
+<summary>Using Java</summary>
 
 ```java
   ClientSecretConfig clientBasicSecretConfig = new ClientBasicSecretConfig(CLIENT_SECRET);
