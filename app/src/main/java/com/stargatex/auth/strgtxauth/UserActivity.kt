@@ -7,16 +7,13 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.button.MaterialButton
 import com.google.gson.Gson
-
 import com.stargatex.auth.authcode.auth.DefaultWebAuthProvider
 import com.stargatex.auth.authcode.auth.WebAuthProvider
 import com.stargatex.auth.authcode.configs.auth.DefaultAuthConfiguration
-import com.stargatex.auth.authcode.configs.client.ClientPostSecretConfig
 import com.stargatex.auth.authcode.model.exception.AuthException
 import com.stargatex.auth.authcode.model.exception.AuthFlowResultHandler
 import com.stargatex.auth.authcode.model.flow.AuthorizationCodeFlowResults
 import com.stargatex.auth.authcode.model.flow.EndSessionFlowResults
-import com.stargatex.auth.strgtxauth.util.AuthConstant
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -39,18 +36,27 @@ class UserActivity : AppCompatActivity() {
 
         webAuthProvider = DefaultWebAuthProvider(
             this, DefaultAuthConfiguration(
-                context = this, ClientPostSecretConfig(
-                    AuthConstant.CLIENT_SECRET
-                )
+                context = this
             )
         )
 
 
+        /* webAuthProvider = DefaultWebAuthProvider(
+             this, DefaultAuthConfiguration(
+                 context = this, ClientPostSecretConfig(
+                     AuthConstant.CLIENT_SECRET
+                 )
+             )
+         )*/
+
         logout.setOnClickListener(View.OnClickListener {
             if (authorizationCodeFlowResults?.tokenResult?.idToken == null) return@OnClickListener
+            val idToken = authorizationCodeFlowResults?.tokenResult?.idToken!!
+
             webAuthProvider.logout(
-                this, authorizationCodeFlowResults?.tokenResult?.idToken!!,
-                Intent(this, UserActivity::class.java)
+                context = this,
+                idToken = idToken,
+                onCompleteIntent = Intent(this, UserActivity::class.java)
             )
         })
 
@@ -62,21 +68,23 @@ class UserActivity : AppCompatActivity() {
             if (authorizationCodeFlowResults?.tokenResult?.refreshToken == null) return@OnClickListener
 
             try {
+                val refreshToken = authorizationCodeFlowResults?.tokenResult?.refreshToken!!
+
                 CoroutineScope(Dispatchers.IO).launch {
-                    val authorizationCodeFlowResultsNew =
+                    val refreshedTokenACFR =
                         (webAuthProvider as DefaultWebAuthProvider).refreshAccessToken(
-                            applicationContext,
-                            authorizationCodeFlowResults?.tokenResult?.refreshToken!!
+                            context = this@UserActivity,
+                            refreshToken = refreshToken
                         )
 
                     Log.e(
                         UserActivity::class.java.simpleName,
-                        "authorizationCodeFlowResultsNew error ${authorizationCodeFlowResultsNew.authError}  "
+                        "refreshedTokenACFR error ${refreshedTokenACFR.authError}  "
                     )
 
                     Log.d(
                         UserActivity::class.java.simpleName,
-                        "authorizationCodeFlowResultsNew token ${authorizationCodeFlowResultsNew.tokenResult}  "
+                        "refreshedTokenACFR token ${refreshedTokenACFR.tokenResult}  "
                     )
                 }
             } catch (ex: AuthException) {
@@ -104,8 +112,10 @@ class UserActivity : AppCompatActivity() {
         )
 
 
-
-        endSessionFlowResults = AuthFlowResultHandler.getLogoutResultFromIntent(intent)
+        val endSessionFlowResults: EndSessionFlowResults? =
+            AuthFlowResultHandler.getLogoutResultFromIntent(
+                intent = intent
+            )
 
         Log.d(
             UserActivity::class.simpleName,
