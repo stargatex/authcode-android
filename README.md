@@ -57,7 +57,7 @@ android.defaultConfig.manifestPlaceholders = [
 
 ### Implementation
 
-##### Login
+#### Login
 
 1. As a first step, we will create an instance of `AuthConfiguration` in order to retrieve the
    configuration that needs to interact with the authorization server.
@@ -97,7 +97,7 @@ val authorizationCodeFlowResults: AuthorizationCodeFlowResults? =
     AuthFlowResultHandler.getLoginResultFromIntent(intent)
 ```
 
-##### Token refresh
+#### Token refresh
 
 To refresh the access token, we will call the `refreshAccessToken` method of `WebAuthProvider` while
 passing the refresh token as shown below. This will return an AuthorizationCodeFlowResults object
@@ -111,7 +111,7 @@ which contains the token results or the exception thrown during the process.
     )
 ```
 
-##### Logout
+#### Logout
 
 To end the session we will call the `logout` method of `WebAuthProvider` while passing the IdToken
 and an Intent to redirect the user on action completion.
@@ -133,4 +133,28 @@ Receive the results via the 'getLogoutResultFromIntent' method of `AuthFlowResul
     )
 ```
 
-> Updating..
+#### With client secrets (Not Recommended)
+
+Although using static client secrets in native applications is _not recommended_, if you are unable to
+avoid using them, you can use them as an HTTP basic authentication header or request body parameter,
+as shown below.
+
+* As a request body parameter
+
+```kotlin
+    val clientPostSecretConfig: ClientSecretConfig = ClientPostSecretConfig(CLIENT_SECRET)
+
+    val authConfiguration: AuthConfiguration =
+        DefaultAuthConfiguration(context = this, clientSecretConfig = clientPostSecretConfig)
+```
+
+* As an HTTP basic authorization header
+
+```kotlin
+    val clientBasicSecretConfig: ClientSecretConfig = ClientBasicSecretConfig(CLIENT_SECRET)
+
+    val authConfiguration: AuthConfiguration =
+        DefaultAuthConfiguration(context = this, clientSecretConfig = clientBasicSecretConfig)
+```
+
+> Updating...
