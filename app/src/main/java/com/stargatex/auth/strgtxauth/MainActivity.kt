@@ -9,10 +9,8 @@ import com.stargatex.auth.authcode.auth.DefaultWebAuthProvider
 import com.stargatex.auth.authcode.auth.WebAuthProvider
 import com.stargatex.auth.authcode.configs.auth.AuthConfiguration
 import com.stargatex.auth.authcode.configs.auth.DefaultAuthConfiguration
-import com.stargatex.auth.authcode.configs.client.ClientPostSecretConfig
 import com.stargatex.auth.authcode.model.exception.AuthFlowResultHandler
 import com.stargatex.auth.authcode.model.flow.AuthorizationCodeFlowResults
-import com.stargatex.auth.strgtxauth.util.AuthConstant.CLIENT_SECRET
 
 
 class MainActivity : AppCompatActivity() {
@@ -23,7 +21,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val login = findViewById<MaterialButton>(R.id.login)
-        authorizationCodeFlowResults = AuthFlowResultHandler.getLoginResultFromIntent(intent)
+        authorizationCodeFlowResults =
+            AuthFlowResultHandler.getLoginResultFromIntent(intent = intent)
         Log.d(
             MainActivity::class.simpleName,
             "authorizationCodeFlowResults ${authorizationCodeFlowResults?.tokenResult}"
@@ -35,15 +34,28 @@ class MainActivity : AppCompatActivity() {
         )
 
         authConfiguration =
-            DefaultAuthConfiguration(context = this, ClientPostSecretConfig(CLIENT_SECRET))
+            DefaultAuthConfiguration(context = this)
+
         webAuthProvider =
             DefaultWebAuthProvider(context = this, authConfiguration = authConfiguration)
+
+
+        /* val clientPostSecretConfig: ClientSecretConfig = ClientPostSecretConfig(CLIENT_SECRET);
+
+         authConfiguration =
+             DefaultAuthConfiguration(context = this, clientSecretConfig = clientPostSecretConfig)*/
+
+        /* val clientBasicSecretConfig: ClientSecretConfig = ClientBasicSecretConfig(CLIENT_SECRET);
+
+         authConfiguration =
+             DefaultAuthConfiguration(context = this, clientSecretConfig = clientBasicSecretConfig)*/
+
 
 
 
         login.setOnClickListener {
             (webAuthProvider as DefaultWebAuthProvider).login(
-                this,
+                context = this,
                 onSuccessIntent = Intent(this, UserActivity::class.java),
                 onFailIntent = Intent(this, MainActivity::class.java)
             )
