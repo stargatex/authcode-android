@@ -38,8 +38,7 @@ android.defaultConfig.manifestPlaceholders = [
 ```
 
 4. Inside your Android application `res/raw` floder create `ocid.json` file with the following
-   configuration. `issueUri` and `registrationUri` are optional in the current version (0.1.2-alpha)
-   .
+   configuration. `issueUri` and `registrationUri` are optional in the current version.
 
 ```json
 {
