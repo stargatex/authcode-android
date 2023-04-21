@@ -4,6 +4,7 @@ import android.app.Activity
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import com.stargatex.auth.authcode.model.exception.AuthFlowExceptionHandler
@@ -29,7 +30,9 @@ internal class LogoutActivity : Activity() {
             val intent = Intent(context, LogoutActivity::class.java)
             intent.putExtra(COMPLETE_INTENT, completeIntent)
             intent.putExtra(FAILED_INTENT, failedIntent)
-            return PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+            val flags =
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE else PendingIntent.FLAG_UPDATE_CURRENT
+            return PendingIntent.getActivity(context, 0, intent, flags)
         }
 
 
