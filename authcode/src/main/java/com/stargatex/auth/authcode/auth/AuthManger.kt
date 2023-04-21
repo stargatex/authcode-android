@@ -3,6 +3,7 @@ package com.stargatex.auth.authcode.auth
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.util.Log
 import com.stargatex.auth.authcode.configs.auth.AuthConfiguration
 import com.stargatex.auth.authcode.configs.service.AuthServiceConfiguration
@@ -10,7 +11,16 @@ import com.stargatex.auth.authcode.configs.service.CustomAuthServiceConfiguratio
 import com.stargatex.auth.authcode.extensions.convertToUri
 import com.stargatex.auth.authcode.model.exception.AuthException
 import com.stargatex.auth.authcode.model.exception.AuthFlowExceptionHandler
-import net.openid.appauth.*
+import net.openid.appauth.AuthorizationException
+import net.openid.appauth.AuthorizationRequest
+import net.openid.appauth.AuthorizationResponse
+import net.openid.appauth.AuthorizationService
+import net.openid.appauth.AuthorizationServiceConfiguration
+import net.openid.appauth.EndSessionRequest
+import net.openid.appauth.GrantTypeValues
+import net.openid.appauth.ResponseTypeValues
+import net.openid.appauth.TokenRequest
+import net.openid.appauth.TokenResponse
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
@@ -42,9 +52,12 @@ internal class AuthManger(var context: Context, private var authConfiguration: A
     ) {
         val authorizationRequest = getAuthorizationRequest(authServiceConfiguration)
         onSuccessIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-
-        val failedPendingIntent = PendingIntent.getActivity(context, 0, onFailIntent, 0)
-        val successPendingIntent = PendingIntent.getActivity(context, 0, onSuccessIntent, 0)
+        var flags = 0
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            flags = flags or PendingIntent.FLAG_MUTABLE
+        }
+        val failedPendingIntent = PendingIntent.getActivity(context, 0, onFailIntent, flags)
+        val successPendingIntent = PendingIntent.getActivity(context, 0, onSuccessIntent, flags)
 
         Log.i(AuthManger::class.java.simpleName, "Performing authorization request")
         authorizationService.performAuthorizationRequest(
@@ -165,8 +178,12 @@ internal class AuthManger(var context: Context, private var authConfiguration: A
         val endSessionRequest = endSessionRequest(authorizationServiceConfiguration, idToken)
 
         if (endSessionRequest != null) {
-            val failedPendingIntent = PendingIntent.getActivity(context, 0, onCompleteIntent, 0)
-            val successPendingIntent = PendingIntent.getActivity(context, 0, onCompleteIntent, 0)
+            var flags = 0
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                flags = flags or PendingIntent.FLAG_MUTABLE
+            }
+            val failedPendingIntent = PendingIntent.getActivity(context, 0, onCompleteIntent, flags)
+            val successPendingIntent = PendingIntent.getActivity(context, 0, onCompleteIntent, flags)
             authorizationService.performEndSessionRequest(
                 endSessionRequest,
                 LogoutActivity.getPendingIntent(context, successPendingIntent, failedPendingIntent)
