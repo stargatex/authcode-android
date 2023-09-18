@@ -1,4 +1,4 @@
-[![](https://jitpack.io/v/stargatex/authcode-android.svg)](https://jitpack.io/#stargatex/authcode-android)
+[![](https://jitpack.io/v/stargatex/authcode-android.svg)](https://jitpack.io/#stargatex/authcode-android) [![CodeFactor](https://www.codefactor.io/repository/github/stargatex/authcode-android/badge)](https://www.codefactor.io/repository/github/stargatex/authcode-android)
 
 # authcode-android
 
