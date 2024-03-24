@@ -7,6 +7,7 @@ import com.stargatex.auth.authcode.R
 import com.stargatex.auth.authcode.configs.client.ClientAuthConfig
 import com.stargatex.auth.authcode.configs.client.ClientAuthFactory
 import com.stargatex.auth.authcode.configs.client.ClientSecretConfig
+import com.stargatex.auth.authcode.model.auth.AuthRequestOptionalConfig
 import com.stargatex.auth.authcode.model.exception.AuthException
 import com.stargatex.auth.authcode.model.exception.AuthFlowExceptionHandler
 import com.stargatex.auth.authcode.model.ocid.OidcConfig
@@ -20,7 +21,8 @@ import org.json.JSONException
  * @version 1.0
  */
 public class DefaultAuthConfiguration @JvmOverloads constructor(
-    private val context: Context, override val clientSecretConfig: ClientSecretConfig? = null
+    private val context: Context, override val clientSecretConfig: ClientSecretConfig? = null,
+    override val authRequestOptionalConfig: AuthRequestOptionalConfig? = null,
 ) : AuthConfiguration {
 
     private lateinit var oidcConfig: OidcConfig
