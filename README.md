@@ -1,8 +1,8 @@
-[![](https://jitpack.io/v/stargatex/authcode-android.svg)](https://jitpack.io/#stargatex/authcode-android)
+[![](https://jitpack.io/v/stargatex/authcode-android.svg)](https://jitpack.io/#stargatex/authcode-android) [![CodeFactor](https://www.codefactor.io/repository/github/stargatex/authcode-android/badge)](https://www.codefactor.io/repository/github/stargatex/authcode-android)
 
 # authcode-android
 
-The AuthCode Android library provides secure sign-in to Android applications
+The AuthCode Android is a library that leverages [AppAuth-Android(openid)](https://github.com/openid/AppAuth-Android) to provide PKCE-enhanced Authorization Code Flow for Android applications.
 
 ### Download and configure
 
