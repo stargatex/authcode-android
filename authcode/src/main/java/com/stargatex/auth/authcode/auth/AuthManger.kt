@@ -81,7 +81,7 @@ internal class AuthManger(var context: Context, private var authConfiguration: A
             ResponseTypeValues.CODE,
             authConfiguration.getOidcConfig().redirectUri.convertToUri()
         ).setScope(authConfiguration.getOidcConfig().scope)
-            // .setAdditionalParameters(parameters)
+            .setAdditionalParameters(authConfiguration.authRequestOptionalConfig?.mAdditionalParameters)
             .build()
     }
 
@@ -99,6 +99,7 @@ internal class AuthManger(var context: Context, private var authConfiguration: A
                         AuthStateManager.saveToken(tokenResponse = response)
                         continuation.resume(response)
                     }
+
                     else -> {
                         if (ex != null) {
                             continuation.resumeWithException(
@@ -138,6 +139,7 @@ internal class AuthManger(var context: Context, private var authConfiguration: A
                         AuthStateManager.saveToken(tokenResponse = response)
                         continuation.resume(response)
                     }
+
                     else -> {
                         if (ex != null) {
                             continuation.resumeWithException(
@@ -183,7 +185,8 @@ internal class AuthManger(var context: Context, private var authConfiguration: A
                 flags = flags or PendingIntent.FLAG_MUTABLE
             }
             val failedPendingIntent = PendingIntent.getActivity(context, 0, onCompleteIntent, flags)
-            val successPendingIntent = PendingIntent.getActivity(context, 0, onCompleteIntent, flags)
+            val successPendingIntent =
+                PendingIntent.getActivity(context, 0, onCompleteIntent, flags)
             authorizationService.performEndSessionRequest(
                 endSessionRequest,
                 LogoutActivity.getPendingIntent(context, successPendingIntent, failedPendingIntent)
