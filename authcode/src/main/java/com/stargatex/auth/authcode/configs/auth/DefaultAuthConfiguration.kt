@@ -10,7 +10,7 @@ import com.stargatex.auth.authcode.configs.client.ClientSecretConfig
 import com.stargatex.auth.authcode.model.auth.AuthRequestOptionalConfig
 import com.stargatex.auth.authcode.model.exception.AuthException
 import com.stargatex.auth.authcode.model.exception.AuthFlowExceptionHandler
-import com.stargatex.auth.authcode.model.ocid.OidcConfig
+import com.stargatex.auth.authcode.model.oidc.OidcConfig
 import okio.IOException
 import okio.buffer
 import okio.source
@@ -29,7 +29,7 @@ public class DefaultAuthConfiguration @JvmOverloads constructor(
 
     init {
         try {
-            retrieveConfigs(R.raw.ocid)
+            retrieveConfigs(R.raw.oidc)
         } catch (ex: AuthException) {
             Log.d(
                 DefaultAuthConfiguration::class.simpleName,
