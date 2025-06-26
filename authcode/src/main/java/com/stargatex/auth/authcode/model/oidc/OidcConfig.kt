@@ -1,4 +1,4 @@
-package com.stargatex.auth.authcode.model.ocid
+package com.stargatex.auth.authcode.model.oidc
 
 /**
  * @author Lahiru J (lahirujay)
