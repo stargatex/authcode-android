@@ -8,6 +8,7 @@ import android.util.Log
 import com.stargatex.auth.authcode.configs.auth.AuthConfiguration
 import com.stargatex.auth.authcode.configs.service.AuthServiceConfiguration
 import com.stargatex.auth.authcode.configs.service.CustomAuthServiceConfiguration
+import com.stargatex.auth.authcode.extensions.applyOidcExtras
 import com.stargatex.auth.authcode.extensions.convertToUri
 import com.stargatex.auth.authcode.model.exception.AuthException
 import com.stargatex.auth.authcode.model.exception.AuthFlowExceptionHandler
@@ -16,6 +17,7 @@ import net.openid.appauth.AuthorizationRequest
 import net.openid.appauth.AuthorizationResponse
 import net.openid.appauth.AuthorizationService
 import net.openid.appauth.AuthorizationServiceConfiguration
+import net.openid.appauth.BuildConfig
 import net.openid.appauth.EndSessionRequest
 import net.openid.appauth.GrantTypeValues
 import net.openid.appauth.ResponseTypeValues
@@ -73,16 +75,20 @@ internal class AuthManger(var context: Context, private var authConfiguration: A
     }
 
     private fun getAuthorizationRequest(authServiceConfiguration: AuthorizationServiceConfiguration): AuthorizationRequest {
-
-
-        return AuthorizationRequest.Builder(
+        val authRequestBuilder = AuthorizationRequest.Builder(
             authServiceConfiguration,
             authConfiguration.getOidcConfig().clientId,
             ResponseTypeValues.CODE,
             authConfiguration.getOidcConfig().redirectUri.convertToUri()
         ).setScope(authConfiguration.getOidcConfig().scope)
-            .setAdditionalParameters(authConfiguration.authRequestOptionalConfig?.mAdditionalParameters)
-            .build()
+            .applyOidcExtras(authConfiguration.authRequestOptionalConfig?.mAdditionalParameters) { key, value ->
+                if (BuildConfig.DEBUG) Log.w(
+                    AuthManger::class.java.simpleName,
+                    "Ignored unsupported reserved param: $key = $value"
+                )
+            }
+
+        return authRequestBuilder.build()
     }
 
 

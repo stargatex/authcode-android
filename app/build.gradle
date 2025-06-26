@@ -14,7 +14,7 @@ android {
         targetSdk 32
         versionCode 1
         versionName "1.0"
-
+        manifestPlaceholders["appAuthRedirectScheme"] = "@string/auth_schema"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -48,7 +48,3 @@ dependencies {
     implementation "com.google.code.gson:gson:2.9.0"
 
 }
-
-android.defaultConfig.manifestPlaceholders = [
-        'appAuthRedirectScheme': "@string/auth_schema"
-]
