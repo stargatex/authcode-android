@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
@@ -32,7 +34,7 @@ android {
         jvmTarget = '1.8'
     }
 
-    tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+    tasks.withType(KotlinCompile).configureEach {
         kotlinOptions.freeCompilerArgs += ["-Xexplicit-api=strict"]
     }
 
