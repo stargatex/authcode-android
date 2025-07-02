@@ -7,6 +7,7 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import com.stargatex.auth.authcode.extensions.safeGetParcelable
 import com.stargatex.auth.authcode.model.exception.AuthFlowExceptionHandler
 import com.stargatex.auth.authcode.model.flow.EndSessionFlowResults
 import com.stargatex.auth.authcode.model.logout.LogoutRequest
@@ -44,7 +45,7 @@ internal class LogoutActivity : Activity() {
 
         @JvmStatic
         fun getLogoutResultFromIntent(intent: Intent): EndSessionFlowResults? {
-            return intent.extras?.getParcelable(AuthBundleArgKey.END_SESSION_FLOW_RESULTS)
+            return intent.extras?.safeGetParcelable(AuthBundleArgKey.END_SESSION_FLOW_RESULTS)
         }
     }
 
@@ -107,8 +108,8 @@ internal class LogoutActivity : Activity() {
                 )
                 finish()
             } else {
-                completeIntent = this.getParcelable(COMPLETE_INTENT)
-                failedIntent = this.getParcelable(FAILED_INTENT)
+                completeIntent = this.safeGetParcelable(COMPLETE_INTENT)
+                failedIntent = this.safeGetParcelable(FAILED_INTENT)
             }
         }
 

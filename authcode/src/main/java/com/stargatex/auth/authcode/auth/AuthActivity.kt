@@ -10,6 +10,7 @@ import androidx.activity.ComponentActivity
 import androidx.lifecycle.lifecycleScope
 import com.stargatex.auth.authcode.configs.auth.DefaultAuthConfiguration
 import com.stargatex.auth.authcode.configs.client.ClientSecretConfig
+import com.stargatex.auth.authcode.extensions.safeGetParcelable
 import com.stargatex.auth.authcode.model.exception.AuthException
 import com.stargatex.auth.authcode.model.exception.AuthFlowExceptionHandler
 import com.stargatex.auth.authcode.model.flow.AuthorizationCodeFlowResults
@@ -58,7 +59,7 @@ internal class AuthActivity : ComponentActivity() {
         @JvmStatic
         fun getLoginResultFromIntent(intent: Intent): AuthorizationCodeFlowResults? {
             return when (intent.extras?.containsKey(AuthBundleArgKey.AUTH_FLOW_RESULTS)) {
-                true -> intent.extras?.getParcelable(AuthBundleArgKey.AUTH_FLOW_RESULTS)
+                true -> intent.extras?.safeGetParcelable(AuthBundleArgKey.AUTH_FLOW_RESULTS)
                 else -> null
             }
         }
@@ -80,9 +81,9 @@ internal class AuthActivity : ComponentActivity() {
             return
         }
 
-        completeIntent = extras.getParcelable(COMPLETE_INTENT)
-        failedIntent = extras.getParcelable(FAILED_INTENT)
-        clientSecretConfig = extras.getParcelable(CLIENT_SECRET_CONFIG)
+        completeIntent = extras.safeGetParcelable(COMPLETE_INTENT)
+        failedIntent = extras.safeGetParcelable(FAILED_INTENT)
+        clientSecretConfig = extras.safeGetParcelable(CLIENT_SECRET_CONFIG)
 
     }
 
