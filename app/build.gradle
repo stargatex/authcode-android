@@ -6,12 +6,12 @@ plugins {
 
 android {
     namespace 'com.stargatex.auth.strgtxauth'
-    compileSdk 32
+    compileSdk 34
 
     defaultConfig {
         applicationId "com.stargatex.auth.strgtxauth"
         minSdk 24
-        targetSdk 32
+        targetSdk 34
         versionCode 1
         versionName "1.0"
         manifestPlaceholders["appAuthRedirectScheme"] = "@string/auth_schema"
