@@ -82,7 +82,7 @@ internal class AuthManger(var context: Context, private var authConfiguration: A
             authConfiguration.getOidcConfig().redirectUri.convertToUri()
         ).setScope(authConfiguration.getOidcConfig().scope)
             .applyOidcExtras(authConfiguration.authRequestOptionalConfig?.mAdditionalParameters) { key, value ->
-                if (BuildConfig.DEBUG) Log.w(
+                Log.w(
                     AuthManger::class.java.simpleName,
                     "Ignored unsupported reserved param: $key = $value"
                 )
