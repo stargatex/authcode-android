@@ -44,7 +44,7 @@ internal fun AuthorizationRequest.Builder.applyOidcExtras(
         .filterKeys { it in RequestBuiltInParams.unsupportedReservedParams }
         .forEach { (key, value) ->
             onUnsupportedReservedParam?.invoke(key, value)
-                ?: if (BuildConfig.DEBUG) Log.w(
+                ?: Log.w(
                     "AuthRequestExtensions",
                     "Unsupported reserved param '$key' is ignored with value '$value'"
                 )
