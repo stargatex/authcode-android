@@ -22,27 +22,30 @@ internal class LogoutActivity : Activity() {
     private var failedIntent: PendingIntent? = null
 
     companion object {
+        private const val COMPLETE_INTENT = "COMPLETE_INTENT"
+        private const val FAILED_INTENT = "FAILED_INTENT"
+
         fun getPendingIntent(
             context: Context,
             completeIntent: PendingIntent,
             failedIntent: PendingIntent
         ): PendingIntent {
-            val intent = Intent(context, LogoutActivity::class.java)
-            intent.putExtra(COMPLETE_INTENT, completeIntent)
-            intent.putExtra(FAILED_INTENT, failedIntent)
+            val intent = Intent(context, LogoutActivity::class.java).apply {
+                putExtra(COMPLETE_INTENT, completeIntent)
+                putExtra(FAILED_INTENT, failedIntent)
+            }
             val flags =
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE else PendingIntent.FLAG_UPDATE_CURRENT
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
+                    PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE
+                else PendingIntent.FLAG_UPDATE_CURRENT
+
             return PendingIntent.getActivity(context, 0, intent, flags)
         }
-
 
         @JvmStatic
         fun getLogoutResultFromIntent(intent: Intent): EndSessionFlowResults? {
             return intent.extras?.getParcelable(AuthBundleArgKey.END_SESSION_FLOW_RESULTS)
         }
-
-        const val COMPLETE_INTENT = "COMPLETE_INTENT"
-        const val FAILED_INTENT = "FAILED_INTENT"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -81,15 +84,17 @@ internal class LogoutActivity : Activity() {
     }
 
     private fun sendIntent(completeIntent: PendingIntent?) {
-        val intent = Intent(this, completeIntent?.intentSender?.javaClass)
-        intent.putExtra(AuthBundleArgKey.END_SESSION_FLOW_RESULTS, endSessionFlowResults)
+        val resultIntent = Intent().apply {
+            putExtra(AuthBundleArgKey.END_SESSION_FLOW_RESULTS, endSessionFlowResults)
+        }
 
         try {
-            completeIntent?.send(this, 0, intent)
+            completeIntent?.send(this, 0, resultIntent)
         } catch (ex: PendingIntent.CanceledException) {
-            Log.e(LogoutActivity::class.simpleName, "Logout error ${ex.message}")
+            Log.e(LogoutActivity::class.simpleName, "Error sending PendingIntent", ex)
+        } finally {
+            finish()
         }
-        finish()
     }
 
     private fun state(extras: Bundle?) {
